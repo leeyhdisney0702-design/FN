@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>半導體職涯情境調查 - Henry 課程專用</title>
+    <style>
+        :root {
+            --primary: #0062ff;
+            --primary-hover: #0052d4;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-main: #2c3e50;
+            --text-sub: #5a6c7d;
+            --border: #e1e8ed;
+        }
+
+        body {
+            font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+            background-image: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
+                              url('https://images.unsplash.com/photo-1624377632657-3902bfd35958?q=80&w=2070&auto=format');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-sizing: border-box;
+        }
+
+        .header h2 { font-size: 1.8rem; color: var(--primary); text-align: center; margin-top: 0; }
+
+        .student-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f0f7ff;
+            border-radius: 12px;
+        }
+        
+        .input-group {
+            flex: 1;
+            min-width: 150px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label { font-size: 0.9rem; margin-bottom: 5px; color: var(--text-sub); font-weight: bold; }
+        .input-group input { 
+            padding: 12px; 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .question-label { 
+            font-weight: bold; margin-bottom: 15px; display: block; 
+            font-size: 1.1rem; border-left: 5px solid var(--primary); padding-left: 12px;
+        }
+
+        .option {
+            background: #fff; border: 1px solid var(--border); padding: 15px;
+            border-radius: 10px; cursor: pointer; transition: 0.2s; margin-bottom: 10px;
+        }
+        .option:hover { border-color: var(--primary); background-color: #f0f6ff; }
+        .option.selected { background-color: var(--primary); color: #fff; font-weight: bold; }
+
+        button {
+            width: 100%; padding: 16px; background-color: var(--primary);
+            color: white; border: none; border-radius: 12px; font-size: 1.2rem;
+            cursor: pointer; margin-top: 20px; font-weight: bold;
+        }
+
+        #result-card {
+            margin-top: 25px; padding: 20px; border: 2px solid var(--primary);
+            border-radius: 15px; display: none; white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header"><h2>半導體職涯調查</h2></div>
+
+    <div class="student-info">
+        <div class="input-group"><label>班級</label><input type="text" id="stu-class" placeholder="如: 907"></div>
+        <div class="input-group"><label>座號</label><input type="text" id="stu-no" placeholder="如: 05"></div>
+        <div class="input-group"><label>姓名</label><input type="text" id="stu-name" placeholder="請輸入姓名"></div>
+    </div>
+
+    <span class="question-label">你最嚮往哪一種半導體工作情境？</span>
+    <div class="options-list">
+        <div class="option" onclick="selectOpt('A', this)">(A) 挑戰未知：研究新材料、開發新技術</div>
+        <div class="option" onclick="selectOpt('B', this)">(B) 守護穩定：動手操作，修復關鍵設備</div>
+        <div class="option" onclick="selectOpt('C', this)">(C) 嚴謹把關：從數據中找出細微缺陷</div>
+        <div class="option" onclick="selectOpt('D', this)">(D) 策略規劃：大數據、法律或財會布局</div>
+        <div class="option" onclick="selectOpt('E', this)">(E) 第一線執行：穿上無塵服參與產線工作</div>
+    </div>
+
+    <button onclick="submitToGoogle()">送出並觀看分析</button>
+
+    <div id="result-card">
+        <b id="res-title" style="color: var(--primary); font-size: 1.2rem;"></b><br>
+        <span id="res-content"></span>
+    </div>
+</div>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+<script>
+    let currentSelect = '';
+    function selectOpt(val, el) {
+        currentSelect = val;
+        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    const responses = {
+        'A': { type: "研發類", text: "你具備高度的創新能力與研究精神！\n例如：IC設計工程師、研發工程師" },
+        'B': { type: "量產類", text: "你是產線最強大的後盾！\n例如：製程工程師、設備工程師、智慧製造工程師、廠務工程師" },
+        'C': { type: "品質類", text: "你的細心是公司商譽的保證！\n例如：製程整合工程師、品質與可靠性工程師" },
+        'D': { type: "規劃與行政類", text: "你是公司運籌帷幄的大腦！\n例如：IT工程師(網路設施)、企業規畫工程師、商管人才、財會人才、法律人才" },
+        'E': { type: "第一線執行職位", text: "你是半導體產業最不可或缺的基石！\n例如：技術員" }
+    };
+
+    function submitToGoogle() {
+        const c = document.getElementById('stu-class').value;
+        const n = document.getElementById('stu-no').value;
+        const name = document.getElementById('stu-name').value;
+
+        if (!c || !n || !name || !currentSelect) { return alert("請填寫完整資訊！"); }
+
+        // --- 根據你提供的新 URL 更新的 ID ---
+        const formID = "1FAIpQLSeYy3EY2mJwvEId3ji6Z5vGtiJ5HIYCyN1-916UBEEm2hdcWA"; 
+        const eClass = "entry.49416634"; 
+        const eNo = "entry.696926560";    
+        const eName = "entry.656085366";  
+        const eChoice = "entry.1483330346";
+
+        const url = `https://docs.google.com/forms/d/e/${formID}/formResponse?` + 
+                    `${eClass}=${encodeURIComponent(c)}&` + 
+                    `${eNo}=${encodeURIComponent(n)}&` + 
+                    `${eName}=${encodeURIComponent(name)}&` + 
+                    `${eChoice}=${encodeURIComponent(currentSelect)}&submit=Submit`;
+        
+        document.getElementById('hidden_iframe').src = url;
+
+        const data = responses[currentSelect];
+        document.getElementById('res-title').innerText = `選擇(${currentSelect})的你適合”${data.type}”`;
+        document.getElementById('res-content').innerText = data.text;
+        document.getElementById('result-card').style.display = 'block';
+        
+        alert("資料已成功傳送！");
+    }
+</script>
+</body>
+</html>
