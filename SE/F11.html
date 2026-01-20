@@ -67,19 +67,20 @@
         .btn-back { border-radius: 50px; margin-bottom: 30px; font-weight: bold; }
         .hidden { display: none; }
 
-        /* QR Code 顯示區塊 */
+        /* Section 3 學習成果驗收 樣式修正 */
         .qr-display {
-            background: white; border-radius: 20px; padding: 40px;
-            text-align: center;
+            background: white; 
+            border-radius: 20px; 
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto; /* 水平置中 */
         }
         .qr-image {
-            width: 250px;
-            height: 250px;
-            border: 1px solid #eee;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            transition: 0.3s;
+            max-width: 200px; /* 限制 QR code 大小 */
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
         }
-        .qr-image:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
@@ -138,29 +139,86 @@
                     <div class="video-title">年薪百萬的工程師到底都在幹嘛</div>
                 </a>
             </div>
+            <div class="col">
+                <a href="https://www.youtube.com/watch?v=xnCEzqC2hDY" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/xnCEzqC2hDY/maxresdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">半導體產業鏈與日月光一元化服務</div>
+                </a>
             </div>
+            <div class="col">
+                <a href="https://www.youtube.com/watch?v=WTZiT_asKLM" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/WTZiT_asKLM/maxresdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">台積公司─晶圓廠導覽</div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="https://www.youtube.com/watch?v=JnN4bP2mOZM" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/JnN4bP2mOZM/maxresdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">半導體無塵室實錄</div>
+                </a>
+            </div>
+        </div>
     </div>
 
     <div id="section2" class="hidden">
         <button class="btn btn-dark btn-back shadow-sm" onclick="showMainMenu()">← 返回主選單</button>
         <h3 class="mb-4 fw-bold text-success border-start border-success border-5 ps-3">2. 職涯煉金術：解密半導體生產</h3>
         <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <a href="https://www.youtube.com/watch?v=ife-z2T9QLM" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/ife-z2T9QLM/maxresdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">一次看懂半導體是什麼</div>
+                </a>
             </div>
+            <div class="col-md-4">
+                <a href="https://www.youtube.com/watch?v=AHe_yVZW6no" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/AHe_yVZW6no/maxresdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">晶片原來是這樣做出來的呀</div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="https://www.youtube.com/shorts/AdNmaQ_oLJI" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/AdNmaQ_oLJI/hqdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">摩爾定律</div>
+                </a>
+            </div>
+        </div>
     </div>
 
-    <div id="section3" class="hidden">
-        <button class="btn btn-dark btn-back shadow-sm" onclick="showMainMenu()">← 返回主選單</button>
-        <div class="qr-display shadow-sm border">
-            <h2 class="fw-bold mb-4">🏆 學習成果驗收</h2>
-            <p class="fs-5 mb-4 text-muted">請掃描下方的 QR Code 進入 Google 表單進行評量</p>
+    <div id="section3" class="hidden text-center">
+        <div class="d-flex justify-content-start">
+            <button class="btn btn-dark btn-back shadow-sm" onclick="showMainMenu()">← 返回主選單</button>
+        </div>
+        
+        <div class="qr-display shadow-sm border bg-white">
+            <h2 class="fw-bold mb-3">🏆 學習成果驗收</h2>
+            <p class="fs-5 mb-4 text-muted">請掃描下方的 QR Code 進行評量</p>
             
-            <div class="my-4">
+            <div class="p-3 mb-4 bg-light d-inline-block border rounded">
                 <img src="qrcode.png" alt="Google表單評量QR Code" class="qr-image img-thumbnail">
             </div>
             
-            <div class="mt-4">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8xBNWyv6xEerQ-MYkLF1VRlLgQu_pTEEJ2hgCFJzjaAA5nA/viewform?usp=sharing" target="_blank" class="btn btn-outline-primary">
-                    無法掃描？點擊此處直接開啟連結
+            <div class="mt-2">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8xBNWyv6xEerQ-MYkLF1VRlLgQu_pTEEJ2hgCFJzjaAA5nA/viewform?usp=sharing" target="_blank" class="btn btn-outline-primary px-4">
+                    點擊此處直接開啟連結
                 </a>
             </div>
         </div>
