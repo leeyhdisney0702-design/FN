@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>半導體探索互動網頁 - 視覺最終修正版</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root { --primary-dark: #0f2027; --accent-blue: #00d2ff; }
+        body { background-color: #f0f4f7; font-family: "Microsoft JhengHei", sans-serif; }
+        
+        /* 頁首 */
+        .hero-section { 
+            background: linear-gradient(135deg, #0f2027, #2c5364); 
+            color: white; padding: 60px 0; margin-bottom: 40px;
+            border-bottom: 5px solid var(--accent-blue);
+        }
+
+        /* 第一層：大圖卡片設計 */
+        .card-main { 
+            cursor: pointer; transition: 0.4s ease; border: none; border-radius: 20px; 
+            min-height: 280px; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            color: white; text-align: center;
+        }
+        
+        .card-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            transition: 0.5s; z-index: 1;
+        }
+        
+        #bg-1 { background-image: url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800'); }
+        #bg-2 { background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800'); }
+        #bg-3 { background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800'); }
+
+        .card-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.55); 
+            z-index: 2; transition: 0.4s;
+        }
+
+        .card-content { position: relative; z-index: 3; padding: 20px; }
+
+        .card-main:hover .card-bg { transform: scale(1.1); }
+        .card-main:hover .card-overlay { background: rgba(0, 100, 200, 0.4); }
+        .card-main:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+
+        /* 影片卡片樣式 */
+        .video-card { 
+            background: white; border-radius: 12px; overflow: hidden; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s;
+            text-decoration: none; color: inherit; display: block; height: 100%;
+        }
+        .video-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .thumb-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+        .thumb-container img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        
+        .play-overlay {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 50px; height: 50px; background: rgba(255,0,0,0.9);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        }
+        .play-overlay::after { content: ""; border-style: solid; border-width: 8px 0 8px 16px; border-color: transparent transparent transparent white; margin-left: 4px; }
+
+        .video-title { padding: 15px; font-weight: bold; font-size: 1rem; text-align: center; }
+        .btn-back { border-radius: 50px; margin-bottom: 30px; font-weight: bold; }
+        .hidden { display: none; }
+
+        /* Section 3 學習成果驗收 樣式修正 */
+        .qr-display {
+            background: white; 
+            border-radius: 20px; 
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto; /* 水平置中 */
+        }
+        .qr-image {
+            max-width: 200px; /* 限制 QR code 大小 */
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-5 fw-bold">半導體虛擬教室</h1>
+        <p class="lead">數據 × 職涯 × 未來英雄</p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div id="main-menu" class="row g-4 justify-content-center">
+        <div class="col-md-4">
+            <div class="card card-main" onclick="showSection('section1')">
+                <div id="bg-1" class="card-bg"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <h2 class="fw-bold">1. 啟航晶圓世界</h2>
+                    <p class="fs-5 text-white-50">未來英雄的成長藍圖</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-main" onclick="showSection('section2')">
+                <div id="bg-2" class="card-bg"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <h2 class="fw-bold">2. 職涯煉金術</h2>
+                    <p class="fs-5 text-white-50">解密半導體生產</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card card-main" onclick="showSection('section3')">
+                <div id="bg-3" class="card-bg"></div>
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <h2 class="fw-bold">3. 自我學習評量</h2>
+                    <p class="fs-5 text-white-50">驗收你的學習成果</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="section1" class="hidden">
+        <button class="btn btn-dark btn-back shadow-sm" onclick="showMainMenu()">← 返回主選單</button>
+        <h3 class="mb-4 fw-bold text-primary border-start border-primary border-5 ps-3">1. 啟航晶圓世界：未來英雄的成長藍圖</h3>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+                <a href="https://www.youtube.com/watch?v=auRZWixNkww" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/auRZWixNkww/maxresdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">年薪百萬的工程師到底都在幹嘛</div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="https://www.youtube.com/watch?v=xnCEzqC2hDY" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/xnCEzqC2hDY/maxresdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">半導體產業鏈與日月光一元化服務</div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="https://www.youtube.com/watch?v=WTZiT_asKLM" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/WTZiT_asKLM/maxresdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">台積公司─晶圓廠導覽</div>
+                </a>
+            </div>
+            <div class="col">
+                <a href="https://www.youtube.com/watch?v=JnN4bP2mOZM" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/JnN4bP2mOZM/maxresdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">半導體無塵室實錄</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="section2" class="hidden">
+        <button class="btn btn-dark btn-back shadow-sm" onclick="showMainMenu()">← 返回主選單</button>
+        <h3 class="mb-4 fw-bold text-success border-start border-success border-5 ps-3">2. 職涯煉金術：解密半導體生產</h3>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4">
+                <a href="https://www.youtube.com/watch?v=ife-z2T9QLM" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/ife-z2T9QLM/maxresdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">一次看懂半導體是什麼</div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="https://www.youtube.com/watch?v=AHe_yVZW6no" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/AHe_yVZW6no/maxresdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">晶片原來是這樣做出來的呀</div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="https://www.youtube.com/shorts/AdNmaQ_oLJI" target="_blank" class="video-card">
+                    <div class="thumb-container">
+                        <img src="https://img.youtube.com/vi/AdNmaQ_oLJI/hqdefault.jpg" alt="封面">
+                        <div class="play-overlay"></div>
+                    </div>
+                    <div class="video-title">摩爾定律</div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="section3" class="hidden text-center">
+        <div class="d-flex justify-content-start">
+            <button class="btn btn-dark btn-back shadow-sm" onclick="showMainMenu()">← 返回主選單</button>
+        </div>
+        
+        <div class="qr-display shadow-sm border bg-white">
+            <h2 class="fw-bold mb-3">🏆 學習成果驗收</h2>
+            <p class="fs-5 mb-4 text-muted">請掃描下方的 QR Code 進行評量</p>
+            
+            <div class="p-3 mb-4 bg-light d-inline-block border rounded">
+                <img src="qrcode.png" alt="Google表單評量QR Code" class="qr-image img-thumbnail">
+            </div>
+            
+            <div class="mt-2">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe8xBNWyv6xEerQ-MYkLF1VRlLgQu_pTEEJ2hgCFJzjaAA5nA/viewform?usp=sharing" target="_blank" class="btn btn-outline-primary px-4">
+                    點擊此處直接開啟連結
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center py-4 bg-dark text-white-50 mt-5">
+    <p>&copy; 2026 半導體教育專案</p>
+</footer>
+
+<script>
+    function showSection(id) {
+        document.getElementById('main-menu').classList.add('hidden');
+        document.getElementById('section1').classList.add('hidden');
+        document.getElementById('section2').classList.add('hidden');
+        document.getElementById('section3').classList.add('hidden');
+        document.getElementById(id).classList.remove('hidden');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+    function showMainMenu() {
+        document.getElementById('main-menu').classList.remove('hidden');
+        document.getElementById('section1').classList.add('hidden');
+        document.getElementById('section2').classList.add('hidden');
+        document.getElementById('section3').classList.add('hidden');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+</script>
+</body>
+</html>
